@@ -1,3 +1,3 @@
-output "maintenance_configuration_id" {
-  value = azurerm_maintenance_configuration.maintenance_configuration.id
+output "recovery_services_vault_id" {
+  value = azurerm_recovery_services_vault.RSV.id
 }

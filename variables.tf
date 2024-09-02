@@ -68,7 +68,7 @@ variable "recovery_services_vault_immutability" {
   default = "Disabled"
 
   validation {
-    condition     = var.recovery_services_vault_ == "Locked" || var.recovery_services_vault_ == "Unlocked" || var.recovery_services_vault_ == "Disabled"
+    condition     = var.recovery_services_vault_immutability == "Locked" || var.recovery_services_vault_immutability == "Unlocked" || var.recovery_services_vault_immutability == "Disabled"
     error_message = "The immutability setting must be one of the following: Locked, Unlocked, Disabled."
   }
 

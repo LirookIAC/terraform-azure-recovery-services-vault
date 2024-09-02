@@ -4,12 +4,12 @@ variable "recovery_services_vault_name" {
   type        = string
 
   validation {
-    condition     = length(var.name) >= 2 && length(var.name) <= 50
+    condition     = length(var.recovery_services_vault_name) >= 2 && length(var.recovery_services_vault_name) <= 50
     error_message = "The Recovery Services Vault name must be between 2 and 50 characters long."
   }
 
   validation {
-    condition     = can(regex("^[a-zA-Z][a-zA-Z0-9-]*$", var.name))
+    condition     = can(regex("^[a-zA-Z][a-zA-Z0-9-]*$", var.recovery_services_vault_name))
     error_message = "The Recovery Services Vault name must start with a letter and contain only letters, numbers, and hyphens."
   }
 
@@ -39,7 +39,7 @@ variable "recovery_services_vault_sku" {
   default = "RS0"
 
   validation {
-    condition     = var.sku == "Standard" || var.sku == "RS0"
+    condition     = var.recovery_services_vault_sku == "Standard" || var.recovery_services_vault_sku == "RS0"
     error_message = "The SKU must be either 'Standard' or 'RS0'."
   }
 }

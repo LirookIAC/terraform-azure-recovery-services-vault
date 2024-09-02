@@ -89,6 +89,7 @@ variable "enable_identity" {
 variable "identity_type" {
   description = "Specifies the type of Managed Service Identity to be configured on the Recovery Services Vault. Possible values are: 'SystemAssigned', 'UserAssigned', or both 'SystemAssigned, UserAssigned'."
   type        = string
+  default = "SystemAssigned"
 
   validation {
     condition     = var.identity_type == "SystemAssigned" || var.identity_type == "UserAssigned" || var.identity_type == "SystemAssigned, UserAssigned"

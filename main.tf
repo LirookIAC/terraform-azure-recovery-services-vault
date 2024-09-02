@@ -13,7 +13,7 @@ resource "azurerm_recovery_services_vault" "RSV" {
     content {
       type = var.identity_type
       identity_ids = (
-        contains(var.identity_type, "UserAssigned") && length(var.identity_ids) > 0
+        (var.identity_type == "UserAssigned" || var.identity_type == "SystemAssigned, UserAssigned") && length(var.identity_ids) > 0
       ) ? var.identity_ids : []
     }
   }

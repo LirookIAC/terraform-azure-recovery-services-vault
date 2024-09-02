@@ -56,6 +56,57 @@ variable "storage_mode_type" {
   default     = "LocallyRedundant"
 }
 
+variable "public_network_access_enabled" {
+  description = "Is it enabled to access the vault from public networks. Defaults to true."
+  type        = bool
+  default     = true
+}
+
+variable "recovery_services_vault_immutability" {
+  description = "Immutability Settings of the vault. Possible values include: Locked, Unlocked, and Disabled."
+  type        = string
+  default = "Disabled"
+
+  validation {
+    condition     = var.recovery_services_vault_ == "Locked" || var.recovery_services_vault_ == "Unlocked" || var.recovery_services_vault_ == "Disabled"
+    error_message = "The immutability setting must be one of the following: Locked, Unlocked, Disabled."
+  }
+
+}
+
+variable "classic_vmware_replication_enabled" {
+  description = "Whether to enable the Classic experience for VMware replication. If set to false which is default, VMware machines will be protected using the new stateless ASR replication appliance. Changing this forces a new resource to be created."
+  type        = bool
+  default     = false
+}
+
+variable "enable_identity" {
+  description = "Whether to enable the Managed Service Identity configuration for the Recovery Services Vault. Set to true to include the identity block, false to omit it."
+  type        = bool
+  default     = false
+}
+
+variable "identity_type" {
+  description = "Specifies the type of Managed Service Identity to be configured on the Recovery Services Vault. Possible values are: 'SystemAssigned', 'UserAssigned', or both 'SystemAssigned, UserAssigned'."
+  type        = string
+
+  validation {
+    condition     = var.identity_type == "SystemAssigned" || var.identity_type == "UserAssigned" || var.identity_type == "SystemAssigned, UserAssigned"
+    error_message = "The identity_type must be either 'SystemAssigned', 'UserAssigned', or 'SystemAssigned, UserAssigned'."
+  }
+}
+
+variable "identity_ids" {
+  description = "A list of User Assigned Managed Identity IDs to be assigned to this Recovery Services Vault. This is optional and only used if enable_identity is true."
+  type        = list(string)
+  default     = []
+}
+
+
+
+
+
+
 
 
 

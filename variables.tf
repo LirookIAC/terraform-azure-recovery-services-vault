@@ -100,7 +100,6 @@ variable "identity_type" {
 variable "identity_ids" {
   description = "A list of User Assigned Managed Identity IDs to be assigned to this Recovery Services Vault. This is optional and only used if enable_identity is true."
   type        = list(string)
-  default = [ "unused-default-value" ]
 
   validation {
     condition     = length(var.identity_ids) > 0

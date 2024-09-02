@@ -50,5 +50,12 @@ variable "soft_delete_enabled" {
   default     = false
 }
 
+variable "storage_mode_type" {
+  description = "The storage type of the Recovery Services Vault. Possible values are GeoRedundant, LocallyRedundant, and ZoneRedundant."
+  type        = string
+  default     = "LocallyRedundant"
+}
+
+
 
 

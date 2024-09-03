@@ -126,6 +126,37 @@ variable "alerts_for_critical_operation_failures_enabled" {
   default     = false
 }
 
+variable "encryption" {
+  type = object({
+    key_id                        = string
+    infrastructure_encryption_enabled = bool
+    user_assigned_identity_id     = string
+    use_system_assigned_identity  = bool
+  })
+  description = "Encryption settings for the Recovery Services Vault."
+
+  default = {
+    key_id                        = ""
+    infrastructure_encryption_enabled = false
+    user_assigned_identity_id     = ""
+    use_system_assigned_identity  = true
+  }
+
+  validation {
+    condition = (
+      var.encryption.key_id != "" &&
+      (var.encryption.user_assigned_identity_id == "" || var.encryption.use_system_assigned_identity == false)
+    )
+    error_message = "The 'key_id' and 'infrastructure_encryption_enabled' must be provided. If 'user_assigned_identity_id' is set, 'use_system_assigned_identity' must be set to false . Otherwise use_system_assigned_identity defalts to true and must not be set false"
+  }
+}
+
+variable "enable_encryption" {
+  description = "Whether to enable the encryption on recovery services vault."
+  type        = bool
+  default     = false
+}
+
 
 
 

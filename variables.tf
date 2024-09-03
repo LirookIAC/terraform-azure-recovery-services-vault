@@ -106,9 +106,10 @@ variable "identity_type" {
 variable "identity_ids" {
   description = "A list of User Assigned Managed Identity IDs to be assigned to this Recovery Services Vault. This is optional and only used if enable_identity is true."
   type        = list(string)
+  default = [ "none" ]
 
   validation {
-    condition     = length(var.identity_ids) > 0
+    condition     = length(var.identity_ids) > 0 && var.identity_ids != ["none"]
     error_message = "The identity_ids list cannot be empty if identity type uses a UserAssigned managed identity. If you are only using SystemAssigned managed identity, or if you don't want to use identity specify identity_ids = ['none']"
   }
 }

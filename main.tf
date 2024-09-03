@@ -18,4 +18,8 @@ resource "azurerm_recovery_services_vault" "RSV" {
       ) ? var.identity_ids : []
     }
   }
+  monitoring {
+    alerts_for_all_job_failures_enabled = var.alerts_for_all_job_failures_enabled
+    alerts_for_critical_operation_failures_enabled = var.alerts_for_critical_operation_failures_enabled
+  }
 }

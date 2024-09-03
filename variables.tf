@@ -114,6 +114,19 @@ variable "identity_ids" {
   }
 }
 
+variable "alerts_for_all_job_failures_enabled" {
+  type        = bool
+  description = "Enabling/Disabling built-in Azure Monitor alerts for security scenarios and job failure scenarios."
+  default     = true
+}
+
+variable "alerts_for_critical_operation_failures_enabled" {
+  type        = bool
+  description = "Enabling/Disabling alerts from the older (classic alerts) solution."
+  default     = false
+}
+
+
 
 
 

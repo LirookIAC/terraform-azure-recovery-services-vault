@@ -109,7 +109,7 @@ variable "identity_ids" {
   default = [ "none" ]
 
   validation {
-    condition     = length(var.identity_ids) > 0 && var.identity_ids != ["none"]
+    condition     = length(var.identity_ids) > 0
     error_message = "The identity_ids list cannot be empty if identity type uses a UserAssigned managed identity. If you are only using SystemAssigned managed identity, or if you don't want to use identity specify identity_ids = ['none']"
   }
 }

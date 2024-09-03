@@ -74,6 +74,12 @@ variable "recovery_services_vault_immutability" {
 
 }
 
+variable "cross_region_restore_enabled" {
+  type        = bool
+  description = "Is cross-region restore to be enabled for this Vault?"
+  default     = false
+}
+
 variable "classic_vmware_replication_enabled" {
   description = "Whether to enable the Classic experience for VMware replication. If set to false which is default, VMware machines will be protected using the new stateless ASR replication appliance. Changing this forces a new resource to be created."
   type        = bool
@@ -103,7 +109,7 @@ variable "identity_ids" {
 
   validation {
     condition     = length(var.identity_ids) > 0
-    error_message = "The identity_ids list cannot be empty if identity type uses a UserAssigned managed identity. If you are only using SystemAssigned managed identity, please remove identity_ids from your module block"
+    error_message = "The identity_ids list cannot be empty if identity type uses a UserAssigned managed identity. If you are only using SystemAssigned managed identity, or if you don't want to use identity specify identity_ids = ['none']"
   }
 }
 

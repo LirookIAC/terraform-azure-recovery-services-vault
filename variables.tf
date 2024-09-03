@@ -99,7 +99,7 @@ variable "identity_type" {
 
   validation {
     condition     = var.identity_type == "SystemAssigned" || var.identity_type == "UserAssigned" || var.identity_type == "SystemAssigned, UserAssigned"
-    error_message = "The identity_type must be either 'SystemAssigned', 'UserAssigned', or 'SystemAssigned, UserAssigned'."
+    error_message = "The identity_type must be either 'SystemAssigned', 'UserAssigned', or 'SystemAssigned, UserAssigned'. If you are not using identity please remove identity_type block from your configuration"
   }
 }
 
@@ -110,7 +110,7 @@ variable "identity_ids" {
 
   validation {
     condition     = length(var.identity_ids) > 0
-    error_message = "The identity_ids list cannot be empty if identity type uses a UserAssigned managed identity. If you are only using SystemAssigned managed identity, or if you don't want to use identity specify identity_ids = ['none']"
+    error_message = "The identity_ids list cannot be empty if identity type uses a UserAssigned managed identity. If you are only using SystemAssigned managed identity, or if you don't want to use identity please remove identity_ids from your configuration"
   }
 }
 

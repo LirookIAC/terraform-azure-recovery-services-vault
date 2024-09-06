@@ -130,7 +130,7 @@ variable "encryption" {
   type = object({
     enable_encryption               = bool                      # Whether to enable encryption
     key_id                          = optional(string, null)    # If encryption is enabled, no default. If disabled, set a default.
-    infrastructure_encryption_enabled = optional(bool, false)   # If encryption is enabled, no default. If disabled, set a default.
+    infrastructure_encryption_enabled = optional(bool, null)   # If encryption is enabled, no default. If disabled, set a default.
     user_assigned_identity_id       = optional(string, null)    # Optional
     use_system_assigned_identity    = optional(bool, true)      # Optional, defaults to true
   })
@@ -139,11 +139,20 @@ variable "encryption" {
   # Applying conditional defaults in locals
   default = {
     enable_encryption               = false
-    key_id                          = var.encryption.enable_encryption ? null : "none"
-    infrastructure_encryption_enabled = var.encryption.enable_encryption ? null : false
-    user_assigned_identity_id       = var.encryption.enable_encryption ? null : "default-user-identity"
-    use_system_assigned_identity    = var.encryption.enable_encryption ? true : false
+    key_id                          = null
+    infrastructure_encryption_enabled =null
+    user_assigned_identity_id       = null
+    use_system_assigned_identity    = true
   }
+  validation {
+    condition = (
+      !var.encryption.enable_encryption || (var.encryption.infrastructure_encryption_enabled!= null &&
+        var.encryption.key_id != null && (var.encryption.user_assigned_identity_id == null || !var.encryption.use_system_assigned_identity)
+      )
+    )
+    error_message = "When encryption is enabled, both key_id and infrastructure_encryption_enabled must be provided. Additionally, if user_assigned_identity_id is set, use_system_assigned_identity must be set to false."
+  }
+  
 }
 
 

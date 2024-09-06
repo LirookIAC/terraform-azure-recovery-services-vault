@@ -10,12 +10,10 @@ resource "azurerm_recovery_services_vault" "RSV" {
   classic_vmware_replication_enabled = var.classic_vmware_replication_enabled
   cross_region_restore_enabled = var.cross_region_restore_enabled
   dynamic "identity" {
-    for_each = var.enable_identity ? [1] : []
+    for_each = var.identity.enable_identity ? [1] : []
     content {
-      type = var.identity_type
-      identity_ids = (
-        (var.identity_type == "UserAssigned" || var.identity_type == "SystemAssigned, UserAssigned") && var.identity_ids != ["none"]
-      ) ? var.identity_ids : []
+      type = var.identity.identity_type
+      identity_ids = var.identity.identity_ids
     }
   }
   monitoring {

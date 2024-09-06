@@ -86,31 +86,32 @@ variable "classic_vmware_replication_enabled" {
   default     = false
 }
 
-variable "enable_identity" {
-  description = "Whether to enable the Managed Service Identity configuration for the Recovery Services Vault. Set to true to include the identity block, false to omit it."
-  type        = bool
-  default     = false
-}
-
-variable "identity_type" {
-  description = "Specifies the type of Managed Service Identity to be configured on the Recovery Services Vault. Possible values are: 'SystemAssigned', 'UserAssigned', or both 'SystemAssigned, UserAssigned'."
-  type        = string
-  default = "SystemAssigned"
-
-  validation {
-    condition     = var.identity_type == "SystemAssigned" || var.identity_type == "UserAssigned" || var.identity_type == "SystemAssigned, UserAssigned"
-    error_message = "The identity_type must be either 'SystemAssigned', 'UserAssigned', or 'SystemAssigned, UserAssigned'. If you are not using identity please remove identity_type block from your configuration"
+variable "identity" {
+  description = "Managed Service Identity configuration for the Recovery Services Vault."
+  type = object({
+    enable_identity = bool
+    identity_type   = string
+    identity_ids    = list(string)
+  })
+  default = {
+    enable_identity = false
+    identity_type   = "SystemAssigned"
+    identity_ids    = []
   }
-}
-
-variable "identity_ids" {
-  description = "A list of User Assigned Managed Identity IDs to be assigned to this Recovery Services Vault. This is optional and only used if enable_identity is true."
-  type        = list(string)
-  default = [ "none" ]
 
   validation {
-    condition     = length(var.identity_ids) > 0
-    error_message = "The identity_ids list cannot be empty if identity type uses a UserAssigned managed identity. If you are only using SystemAssigned managed identity, or if you don't want to use identity please remove identity_ids from your configuration"
+    condition = (
+      !var.identity.enable_identity ||
+      (
+        (var.identity.identity_type == "SystemAssigned" ||
+         var.identity.identity_type == "UserAssigned" ||
+         var.identity.identity_type == "SystemAssigned, UserAssigned") &&
+        (var.identity.identity_type == "SystemAssigned" && length(var.identity.identity_ids) == 0) ||
+        (var.identity.identity_type == "UserAssigned" && length(var.identity.identity_ids) > 0) ||
+        (var.identity.identity_type == "SystemAssigned, UserAssigned" && length(var.identity.identity_ids) > 0)
+      )
+    )
+    error_message = "When enable_identity is true, identity_type must be either 'SystemAssigned', 'UserAssigned', or 'SystemAssigned, UserAssigned'. If 'UserAssigned' is included in identity_type, identity_ids cannot be empty. If using only 'SystemAssigned', ensure identity_ids is either empty or not specified."
   }
 }
 

@@ -128,34 +128,24 @@ variable "alerts_for_critical_operation_failures_enabled" {
 
 variable "encryption" {
   type = object({
-    key_id                        = string
-    infrastructure_encryption_enabled = bool
-    user_assigned_identity_id     = string
-    use_system_assigned_identity  = bool
+    enable_encryption               = bool                      # Whether to enable encryption
+    key_id                          = optional(string, null)    # If encryption is enabled, no default. If disabled, set a default.
+    infrastructure_encryption_enabled = optional(bool, false)   # If encryption is enabled, no default. If disabled, set a default.
+    user_assigned_identity_id       = optional(string, null)    # Optional
+    use_system_assigned_identity    = optional(bool, true)      # Optional, defaults to true
   })
   description = "Encryption settings for the Recovery Services Vault."
-
+  
+  # Applying conditional defaults in locals
   default = {
-    key_id                        = ""
-    infrastructure_encryption_enabled = false
-    user_assigned_identity_id     = ""
-    use_system_assigned_identity  = true
-  }
-
-  validation {
-    condition = (
-      var.encryption.key_id != "" &&
-      (var.encryption.user_assigned_identity_id == "" || var.encryption.use_system_assigned_identity == false)
-    )
-    error_message = "The 'key_id' and 'infrastructure_encryption_enabled' must be provided. If 'user_assigned_identity_id' is set, 'use_system_assigned_identity' must be set to false . Otherwise use_system_assigned_identity defalts to true and must not be set false"
+    enable_encryption               = false
+    key_id                          = var.encryption.enable_encryption ? null : "none"
+    infrastructure_encryption_enabled = var.encryption.enable_encryption ? null : false
+    user_assigned_identity_id       = var.encryption.enable_encryption ? null : "default-user-identity"
+    use_system_assigned_identity    = var.encryption.enable_encryption ? true : false
   }
 }
 
-variable "enable_encryption" {
-  description = "Whether to enable the encryption on recovery services vault."
-  type        = bool
-  default     = false
-}
 
 
 

@@ -23,7 +23,7 @@ resource "azurerm_recovery_services_vault" "RSV" {
     alerts_for_critical_operation_failures_enabled = var.alerts_for_critical_operation_failures_enabled
   }
   dynamic "encryption" {
-    for_each = var.enable_encryption ? [1] : []
+    for_each = var.encryption.enable_encryption ? [1] : []
     content {
       key_id                        = var.encryption["key_id"]
       infrastructure_encryption_enabled = var.encryption["infrastructure_encryption_enabled"]

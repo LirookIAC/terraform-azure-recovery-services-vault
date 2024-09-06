@@ -128,15 +128,14 @@ variable "alerts_for_critical_operation_failures_enabled" {
 
 variable "encryption" {
   type = object({
-    enable_encryption               = bool                      # Whether to enable encryption
-    key_id                          = optional(string, null)    # If encryption is enabled, no default. If disabled, set a default.
-    infrastructure_encryption_enabled = optional(bool, null)   # If encryption is enabled, no default. If disabled, set a default.
-    user_assigned_identity_id       = optional(string, null)    # Optional
-    use_system_assigned_identity    = optional(bool, true)      # Optional, defaults to true
+    enable_encryption               = bool
+    key_id                          = optional(string, null) 
+    infrastructure_encryption_enabled = optional(bool, null)
+    user_assigned_identity_id       = optional(string, null)
+    use_system_assigned_identity    = optional(bool, true)
   })
   description = "Encryption settings for the Recovery Services Vault."
-  
-  # Applying conditional defaults in locals
+
   default = {
     enable_encryption               = false
     key_id                          = null

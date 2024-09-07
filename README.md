@@ -89,3 +89,17 @@ Encryption settings for the Recovery Services Vault. The encryption object inclu
 - `user_assigned_identity_id`: The user-assigned identity ID, if applicable.Defaults to null and need to be specified if enable_encryption is set to true and user assigned managed identity is to be utilised.
 - `use_system_assigned_identity`: Whether to use the system-assigned identity. Defaults to `true`. Must be set to false if user assigned managed identity is to be utilised.
 
+## Considerations
+
+When using this module, please keep the following in mind:
+
+1. **Identity and Encryption Blocks**:
+   - The `identity` and `encryption` blocks do not need to be declared if identity and encryption are not required for the Recovery Services Vault.
+   
+2. **Encryption Identity Privileges**:
+   - Ensure that the identity being used for encryption has sufficient privileges to access and manage keys in the Azure Key Vault.
+
+3. **Cross-Region Restore Impact**:
+   - If cross-region restore is enabled, the `storage_mode_type` variable will automatically be overridden to `GeoRedundant`, regardless of its initial value.
+
+

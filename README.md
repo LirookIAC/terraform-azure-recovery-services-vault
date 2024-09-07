@@ -48,7 +48,7 @@ Specifies the supported Azure location where the resource exists.
 A mapping of tags to assign to the resource.Defaults to no tags.
 
 ### `recovery_services_vault_sku`
-Sets the vault's SKU. Possible values include: `Standard` and `RS0`.Defaults to RS0
+Sets the vault's SKU. Possible values include: `Standard` and `RS0`.Defaults to RS0.
 
 ### `soft_delete_enabled`
 Soft Delete Setting for the vault. Defaults to `false`.
@@ -73,7 +73,7 @@ Managed Service Identity configuration for the Recovery Services Vault. It inclu
 - `enable_identity`: Enable or disable Managed Service Identity. Defaults to false.
 - `identity_type`: Can be `SystemAssigned`, `UserAssigned`, or `SystemAssigned, UserAssigned`. Defaults to SystemAssigned.
 - `identity_ids`: A list of identity IDs to assign if `UserAssigned` is included in `identity_type`.Defaults to [].
--Note : When enable_identity is true, identity_type must be either 'SystemAssigned', 'UserAssigned', or 'SystemAssigned, UserAssigned'. If 'UserAssigned' is included in identity_type, identity_ids cannot be empty. If using only 'SystemAssigned', ensure identity_ids is either empty or not specified.
+- Note : When enable_identity is true, identity_type must be either 'SystemAssigned', 'UserAssigned', or 'SystemAssigned, UserAssigned'. If 'UserAssigned' is included in identity_type, identity_ids cannot be empty. If using only 'SystemAssigned', ensure identity_ids is either empty or not specified.
 
 ### `alerts_for_all_job_failures_enabled`
 Enable or disable built-in Azure Monitor alerts for security scenarios and job failure scenarios. Defaults to `true`.

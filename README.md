@@ -173,5 +173,7 @@ output "recovery_services_vault_id" {
 
 - **`output "recovery_services_vault_id"` Block**: Outputs the ID of the created recovery services vault.
 
+- This example provides a template for setting up an Azure Recovery Services Vault using the module. Customize the variable values according to your requirements.
+
 
 

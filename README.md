@@ -102,4 +102,54 @@ When using this module, please keep the following in mind:
 3. **Cross-Region Restore Impact**:
    - If cross-region restore is enabled, the `storage_mode_type` variable will automatically be overridden to `GeoRedundant`, regardless of its initial value.
 
+## Example Usage
+
+This section provides an example of how to use the Azure Recovery Services Vault module in your Terraform configuration.
+
+```hcl
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 3.0"
+    }
+  }
+}
+
+
+provider "azurerm" {
+  features {}
+}
+
+module "recovery_services_vault" {
+  source = "git::https://github.com/LirookIAC/terraform-azure-recovery-services-vault.git"
+
+  # Pass any required variables to the module
+  recovery_services_vault_resource_group_name = "test2"
+  recovery_services_vault_location            = "North Europe"
+  recovery_services_vault_name                = "myRecoveryVault"
+
+  identity = {
+    enable_identity      = true
+    identity_type        = "SystemAssigned, UserAssigned"
+    identity_ids         = [
+      "/subscriptions/bed9c8b2-bb60-492d-92a9-d1641fb7adf8/resourceGroups/test2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/RSV-test"
+    ]
+  }
+
+  encryption = {
+    enable_encryption                  = true
+    key_id                             = "https://terraform-kv-lirook.vault.azure.net/keys/RSV-encryption/381898cd5b134bb0833877163af127fd"
+    infrastructure_encryption_enabled  = true
+    use_system_assigned_identity        = false
+    user_assigned_identity_id           = "/subscriptions/bed9c8b2-bb60-492d-92a9-d1641fb7adf8/resourceGroups/test2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/RSV-test"
+  }
+}
+
+output "recovery_services_vault_id" {
+  value = module.recovery_services_vault.recovery_services_vault_id
+}
+```
+
+
 

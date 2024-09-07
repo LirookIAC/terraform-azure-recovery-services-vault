@@ -45,34 +45,35 @@ The name of the resource group in which to create the Recovery Services Vault.
 Specifies the supported Azure location where the resource exists.
 
 ### `recovery_services_vault_tags`
-A mapping of tags to assign to the resource.
+A mapping of tags to assign to the resource.Defaults to no tags.
 
 ### `recovery_services_vault_sku`
-Sets the vault's SKU. Possible values include: `Standard` and `RS0`.
+Sets the vault's SKU. Possible values include: `Standard` and `RS0`.Defaults to RS0
 
 ### `soft_delete_enabled`
 Soft Delete Setting for the vault. Defaults to `false`.
 
 ### `storage_mode_type`
-The storage type of the Recovery Services Vault. Possible values are `GeoRedundant`, `LocallyRedundant`, and `ZoneRedundant`.
+The storage type of the Recovery Services Vault. Possible values are `GeoRedundant`, `LocallyRedundant`, and `ZoneRedundant`. Defaults to LocallyRedundant.
 
 ### `public_network_access_enabled`
 Is it enabled to access the vault from public networks. Defaults to `true`.
 
 ### `recovery_services_vault_immutability`
-Immutability settings of the vault. Possible values include: `Locked`, `Unlocked`, and `Disabled`.
+Immutability settings of the vault. Possible values include: `Locked`, `Unlocked`, and `Disabled`. Disabled by default.
 
 ### `cross_region_restore_enabled`
-Is cross-region restore to be enabled for this vault?
+Is cross-region restore to be enabled for this vault? Defaults to false. If set to true, storage_mode_type changes to GeoRedundant.
 
 ### `classic_vmware_replication_enabled`
 Whether to enable the classic experience for VMware replication. Defaults to `false`.
 
 ### `identity`
 Managed Service Identity configuration for the Recovery Services Vault. It includes:
-- `enable_identity`: Enable or disable Managed Service Identity.
-- `identity_type`: Can be `SystemAssigned`, `UserAssigned`, or `SystemAssigned, UserAssigned`.
-- `identity_ids`: A list of identity IDs to assign if `UserAssigned` is included in `identity_type`.
+- `enable_identity`: Enable or disable Managed Service Identity. Defaults to false.
+- `identity_type`: Can be `SystemAssigned`, `UserAssigned`, or `SystemAssigned, UserAssigned`. Defaults to SystemAssigned.
+- `identity_ids`: A list of identity IDs to assign if `UserAssigned` is included in `identity_type`.Defaults to [].
+-Note : When enable_identity is true, identity_type must be either 'SystemAssigned', 'UserAssigned', or 'SystemAssigned, UserAssigned'. If 'UserAssigned' is included in identity_type, identity_ids cannot be empty. If using only 'SystemAssigned', ensure identity_ids is either empty or not specified.
 
 ### `alerts_for_all_job_failures_enabled`
 Enable or disable built-in Azure Monitor alerts for security scenarios and job failure scenarios. Defaults to `true`.
@@ -82,9 +83,9 @@ Enable or disable alerts from the older (classic alerts) solution. Defaults to `
 
 ### `encryption`
 Encryption settings for the Recovery Services Vault. The encryption object includes:
-- `enable_encryption`: Enable or disable encryption.
-- `key_id`: The Key Vault key ID used to encrypt the vault.
-- `infrastructure_encryption_enabled`: Enable or disable double encryption.
-- `user_assigned_identity_id`: The user-assigned identity ID, if applicable.
-- `use_system_assigned_identity`: Whether to use the system-assigned identity. Defaults to `true`.
+- `enable_encryption`: Enable or disable encryption. Defaults to false
+- `key_id`: The Key Vault key ID used to encrypt the vault.Defaults to null and need to be specified if enable_encryption is set to true.
+- `infrastructure_encryption_enabled`: Enable or disable double encryption. Cannot be changed once set. Needs to be decided before vault creation. Changing this forces replacement. Defaults to null and must be specified.
+- `user_assigned_identity_id`: The user-assigned identity ID, if applicable.Defaults to null and need to be specified if enable_encryption is set to true and user assigned managed identity is to be utilised.
+- `use_system_assigned_identity`: Whether to use the system-assigned identity. Defaults to `true`. Must be set to false if user assigned managed identity is to be utilised.
 

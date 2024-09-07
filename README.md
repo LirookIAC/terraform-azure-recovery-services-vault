@@ -133,16 +133,16 @@ module "recovery_services_vault" {
     enable_identity      = true
     identity_type        = "SystemAssigned, UserAssigned"
     identity_ids         = [
-      "/subscriptions/bed9c8b2-bb60-492d-92a9-d1641fb7adf8/resourceGroups/test2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/RSV-test"
+      "/subscriptions/be0987b2-bb60-492d-92a9-d1641fb7adf8/resourceGroups/test2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/RSV-test"
     ]
   }
 
   encryption = {
     enable_encryption                  = true
-    key_id                             = "https://terraform-kv-lirook.vault.azure.net/keys/RSV-encryption/381898cd5b134bb0833877163af127fd"
+    key_id                             = "https://terraform-kv-lirook.vault.azure.net/keys/RSV-encryption/381898cd5b134bb0833877295af127fd"
     infrastructure_encryption_enabled  = true
     use_system_assigned_identity        = false
-    user_assigned_identity_id           = "/subscriptions/bed9c8b2-bb60-492d-92a9-d1641fb7adf8/resourceGroups/test2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/RSV-test"
+    user_assigned_identity_id           = "/subscriptions/be0987b2-bb60-492d-92a9-d1641fb7adf8/resourceGroups/test2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/RSV-test"
   }
 }
 
